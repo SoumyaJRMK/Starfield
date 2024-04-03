@@ -1,87 +1,108 @@
-"use strict";
+// (｡♥‿♥｡) Ready to twinkle like a star in the night sky? Let's dive into the code together!
 
-p5.disableFriendlyErrors = true; // disables FES
+// Disables friendly errors system (FES)
+p5.disableFriendlyErrors = true;
 
-// Global Constants
-const canvasSize = Math.min(screen.width, screen.height) * 0.675; // The size of the canvas where stars will be displayed
-const totalStars = 8; // The total number of stars to be generated
-const defaultStarSpeed = 60; // The default speed at which stars move
+// Global constants
+const canvasSize = 700; // The size of our beautiful canvas
+const totalStars = 6; // The number of stars twinkling in our sky
+const defaultStarSpeed = 60; // The default speed of our stars
 
-// Array to store instances of the Star class
-let stars = [];
+let stars = []; // An array to hold all our twinkling stars
+let speedSlider; // A slider to control the speed of the stars
 
-// Slider variable for controlling star speed
-let speedSlider;
-
-// Setup function to initialize the sketch
+// Setup function: Initializes the canvas and stars
 function setup() {
-  createCanvas(canvasSize, canvasSize); // Create a canvas of specified size
+  createCanvas(canvasSize, canvasSize); // Creating our canvas, yay!
 
-  // Create a slider for controlling star speed
-  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 4, 0);
-  speedSlider.position(10, 10);
-  speedSlider.size(canvasSize - 25);
+  // Creating a slider to control star speed
+  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 5, 0); // Slider settings
+  speedSlider.position(10, 10); // Positioning the slider
+  speedSlider.size(canvasSize - 25); // Adjusting its size to fit the canvas
 
-  // Initialize the stars array with instances of the Star class
-  for (let i = 0; i < (canvasSize * totalStars); i++) {
-    stars.push(new Star());
+  // Let's create some stars and add them to our array
+  for (let i = 0; i < canvasSize * totalStars; i++) {
+    stars.push(new Star()); // Creating a new star and adding it to our twinkling array
   }
 }
 
-// Draw function to update and display the stars
+// Draw function: Renders the stars and updates their positions
 function draw() {
-  background(8, 18, 27); // Set background color to black
-  translate(width / 2, height / 2);
+  setGradient(0, 0, width, height, color(0, 0, 20), color(0, 0, 0)); // Creating a beautiful night sky gradient
+  translate(width / 2, height / 2); // Translating the origin to the center of the canvas
 
-  // Update and display each star in the stars array
-  for (let i = 0; i < (canvasSize * totalStars); i++) {
-    stars[i].update(); // Update star properties
-    stars[i].display(); // Display the star
+  // Updating and displaying each twinkling star
+  for (let i = 0; i < canvasSize * totalStars; i++) {
+    stars[i].update(); // Updating the position of the star
+    stars[i].display(); // Displaying the star on the canvas
   }
 }
 
-// Star class definition
+// Star class: Represents a star in the animation
 class Star {
   constructor() {
-    // Set initial position of the star randomly within canvas bounds
-    this.x = random(-width, width);
-    this.y = random(-height, height);
-    this.z = random(canvasSize); // Depth 
-    this.prevX = this.x;
-    this.prevY = this.y;
-    this.prevZ = this.z;
+    // Initializing the star's position and other properties
+    this.x = random(-width, width); // Random X position within the canvas
+    this.y = random(-height, height); // Random Y position within the canvas
+    this.z = random(canvasSize); // Random Z position within the canvas
+    this.prevX = this.x; // Previous X position for smooth motion
+    this.prevY = this.y; // Previous Y position for smooth motion
+    this.prevZ = this.z; // Previous Z position for smooth motion
+    this.starBrightness = random(150, 250); // Random brightness for our twinkling star
   }
 
-  // Update star properties 
+  // Update method: Moves the star and resets its position if it goes out of bounds
   update() {
-    // Move the star along the z-axis (depth) based on the speed slider value
-    this.z -= speedSlider.value();
+    this.x += random(-0.5, 0.5); // Adding a bit of randomness to X position
+    this.y += random(-0.5, 0.5); // Adding a bit of randomness to Y position
+    this.z -= speedSlider.value(); // Adjusting Z position based on slider value
 
-    // If the star moves behind the viewer, reset its position
+    // Resetting the star's position if it goes out of bounds
     if (this.z < 1) {
-      this.z = canvasSize;
-      this.x = random(-width, width);
-      this.y = random(-height, height);
-      this.prevX = this.x;
-      this.prevY = this.y;
-      this.prevZ = this.z;
+      this.z = canvasSize; // Bringing the star back to the forefront
+      this.x = random(-width, width); // Randomizing X position
+      this.y = random(-height, height); // Randomizing Y position
+      this.prevX = this.x; // Updating previous X position
+      this.prevY = this.y; // Updating previous Y position
+      this.prevZ = this.z; // Updating previous Z position
+      this.starBrightness = random(50, 150); // Randomizing brightness for a fresh twinkle
     }
   }
 
-  // Display the star
+  // Display method: Draws the star on the canvas
   display() {
-    // Calculate the screen position of the star
+    this.twinkle(); // Adding some twinkling effect to our star
+
+    // Mapping the star's 3D position to 2D screen coordinates
     let screenX = map(this.x / this.z, 0, 1, 0, width);
     let screenY = map(this.y / this.z, 0, 1, 0, height);
-    let starGlow = map(this.z, 0, canvasSize, 2, 0);
+    let starGlow = map(this.z, 0, canvasSize, 2, 0); // Calculating the star's glow based on distance
 
-    // Draw a line connecting the previous position to the current position to simulate motion
-    stroke(255);
-    strokeWeight(starGlow);
-    line(this.prevX, this.prevY, screenX, screenY);
+    // Drawing the line representing the star on the canvas
+    stroke(this.starBrightness); // Setting the stroke brightness
+    strokeWeight(starGlow); // Setting the stroke weight for a glowing effect
+    line(this.prevX, this.prevY, screenX, screenY); // Drawing the line from previous to current position
 
-    // Update the previous position to be the current position for the next frame
+    // Updating the previous position for smooth motion
     this.prevX = screenX;
     this.prevY = screenY;
+  }
+
+  // Twinkle method: Adds twinkling effect to the stars
+  twinkle() {
+    if (random() > 0.99) { // Adjust the probability for twinkling effect
+      this.starBrightness = random(150, 250); // Randomize the brightness for twinkling
+    }
+  }
+}
+
+// Set Gradient function: Draws a gradient background
+function setGradient(x, y, w, h, c1, c2, axis) {
+  noFill(); // No filling for gradient
+  for (let i = y; i <= y + h; i++) {
+    let inter = map(i, y, y + h, 0, 1); // Mapping the gradient color
+    let c = lerpColor(c1, c2, inter); // Linearly interpolating between two colors
+    stroke(c); // Setting stroke color
+    line(x, i, x + w, i); // Drawing a line to create gradient effect
   }
 }
