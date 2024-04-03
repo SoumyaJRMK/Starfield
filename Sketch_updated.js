@@ -60,11 +60,11 @@ class Star {
     this.zPos = random(canvasSize); // Random Z position within the canvas
     this.prevXPos = this.xPos; // Previous X position for smooth motion
     this.prevYPos = this.yPos; // Previous Y position for smooth motion
-    this.speed = random(2, 4); // Random speed for parallax effect
+    this.speed = random(0, 1); // Random speed for parallax effect
     this.size = random(0, 1); // Random size for star variation
     this.color = color(random(200, 255), random(200, 255), random(200, 255)); // Random color for the star
     this.prevPositions = []; // Array to store previous positions for particle trails
-    this.trailLength = random(5, 10); // Random length of particle trail
+    this.trailLength = random(1, 2); // Random length of particle trail
   }
   // Update Method: Moves the star and resets its position if it goes out of bounds
   update() {
@@ -81,7 +81,7 @@ class Star {
       this.prevXPos = this.xPos; // Updating previous X position
       this.prevYPos = this.yPos; // Updating previous Y position
       this.size = random(0, 1); // Random size for star variation
-      this.color = color(random(200, 250), random(200, 250), random(200, 250)); // Randomizing color for a fresh star
+      this.color = color(random(200, 260), random(200, 260), random(200, 260)); // Randomizing color for a fresh star
     }
   }
   // Display Method: Draws the star on the canvas adorably
@@ -104,7 +104,7 @@ class Star {
     let starGlow = map(this.zPos, 0, canvasSize, 2, 0); // Calculating the star's glow based on distance
     
     // Drawing the line representing the star on the canvas adorably
-    strokeWeight(starGlow); // Setting the stroke weight for a glowing effect
+    strokeWeight(starGlow * this.size); // Setting the stroke weight for a glowing effect
     line(this.prevXPos, this.prevYPos, screenX, screenY); // Drawing the line from previous to current position
     
     // Updating the previous position for smooth motion
