@@ -4,7 +4,7 @@ p5.disableFriendlyErrors = true;
 // Global constants
 const canvasSize = 700; // The size of our beautiful canvas
 const totalStars = 6; // The number of stars twinkling in our sky
-const defaultStarSpeed = 50; // The default speed of our stars
+const defaultStarSpeed = 40; // The default speed of our stars
 
 let stars = []; // An array to hold all our twinkling stars
 let speedSlider; // A slider to control the speed of the stars
@@ -14,7 +14,7 @@ function setup() {
   createCanvas(canvasSize, canvasSize); // Creating our canvas
 
   // Creating a slider to control star speed
-  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 3, 0); // Slider settings
+  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 2, 0); // Slider settings
   speedSlider.position(10, 10); // Positioning the slider
   speedSlider.size(canvasSize - 25); // Adjusting its size to fit the canvas
 
@@ -30,7 +30,7 @@ function draw() {
   translate(width / 2, height / 2); // Translating the origin to the center of the canvas
 
   // Updating and displaying each twinkling star
-  for (let i = 0; i < canvasSize * totalStars; i++) {
+  for (let i = 0; i < (canvasSize * totalStars); i++) {
     stars[i].update(); // Updating the position of the star
     stars[i].display(); // Displaying the star on the canvas
   }
@@ -47,6 +47,7 @@ class Star {
     this.prevYPos = this.yPos; // Previous Y position for smooth motion
     this.prevZPos = this.zPos; // Previous Z position for smooth motion
     this.brightness = random(150, 250); // Random brightness for our twinkling star
+    this.twinkleSpeed = random(0.001, 0.01); // Random twinkling speed
   }
 
   // Update method: Moves the star and resets its position if it goes out of bounds
@@ -64,6 +65,7 @@ class Star {
       this.prevYPos = this.yPos; // Updating previous Y position
       this.prevZPos = this.zPos; // Updating previous Z position
       this.brightness = random(50, 150); // Randomizing brightness for a fresh twinkle
+      this.twinkleSpeed = random(0.001, 0.01); // Randomizing twinkling speed
     }
   }
 
@@ -80,7 +82,7 @@ class Star {
     stroke(this.brightness); // Setting the stroke brightness
     strokeWeight(starGlow); // Setting the stroke weight for a glowing effect
     line(this.prevXPos, this.prevYPos, screenX, screenY); // Drawing the line from previous to current position
-
+    
     // Updating the previous position for smooth motion
     this.prevXPos = screenX;
     this.prevYPos = screenY;
@@ -88,9 +90,8 @@ class Star {
 
   // Twinkle method: Adds twinkling effect to the stars
   twinkle() {
-    if (random() > 0.99) { // Adjust the probability for twinkling effect
-      this.brightness = random(150, 250); // Randomize the brightness for twinkling
-    }
+    this.brightness += random(-this.twinkleSpeed, this.twinkleSpeed); // Simulating twinkling effect
+    this.brightness = constrain(this.brightness, 150, 250); // Constraining brightness within a range
   }
 }
 
