@@ -6,7 +6,7 @@ p5.disableFriendlyErrors = true;
 // Global constants
 const canvasSize = 700; // The size of our beautiful canvas
 const totalStars = 6; // The number of stars twinkling in our sky
-const defaultStarSpeed = 60; // The default speed of our stars
+const defaultStarSpeed = 50; // The default speed of our stars
 
 let stars = []; // An array to hold all our twinkling stars
 let speedSlider; // A slider to control the speed of the stars
@@ -16,7 +16,7 @@ function setup() {
   createCanvas(canvasSize, canvasSize); // Creating our canvas, yay!
 
   // Creating a slider to control star speed
-  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 5, 0); // Slider settings
+  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 3, 0); // Slider settings
   speedSlider.position(10, 10); // Positioning the slider
   speedSlider.size(canvasSize - 25); // Adjusting its size to fit the canvas
 
