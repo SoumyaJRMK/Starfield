@@ -18,7 +18,7 @@ function setup() {
   createCanvas(canvasSize, canvasSize); // Create a canvas of specified size
 
   // Create a slider for controlling star speed
-  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 2, 0);
+  speedSlider = createSlider(1, defaultStarSpeed, defaultStarSpeed / 4, 0);
   speedSlider.position(10, 10);
   speedSlider.size(canvasSize - 25);
 
