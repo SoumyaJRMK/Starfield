@@ -5,7 +5,7 @@ p5.disableFriendlyErrors = true;
 
 // Global Constants
 const canvasSize = 700; // The size of our beautiful canvas
-const totalMainStars = 6; // The number of main twinkling stars
+const totalMainStars = 5; // The number of main twinkling stars
 const defaultStarSpeed = 40; // The default speed of our stars
 
 let mainStars = []; // An array to hold our main twinkling stars
@@ -65,7 +65,7 @@ class Star {
       this.yPos = random(-height, height); // Randomizing Y position
       this.prevXPos = this.xPos; // Updating previous X position
       this.prevYPos = this.yPos; // Updating previous Y position
-      this.color = color(random(190, 250), random(190, 250), random(190, 250)); // Randomizing color for a fresh star
+      this.color = color(random(200, 250), random(200, 250), random(200, 250)); // Randomizing color for a fresh star
     }
   }
 
