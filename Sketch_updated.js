@@ -3,16 +3,9 @@
 // Disabling Friendly Errors System (FES) to keep things smooth and cute! (*＾▽＾)／
 p5.disableFriendlyErrors = true;
 
-// Global Constants for our adorable night sky~ (≧◡≦)
-const canvasSize = 700; // The size of our beautiful canvas
-const totalMainStars = 5; // The number of main twinkling stars
-const defaultStarSpeed = 40; // The default speed of our stars
-
-// An array to hold our main twinkling stars
-let mainStars = [];
-
-// A slider to control the speed of the stars
-let speedSlider;
+// Global Constants and Variables
+const canvasSize = 700, totalMainStars = 5, defaultStarSpeed = 40;
+let mainStars = [], speedSlider;
 
 // Setup Function: Initializes the canvas and stars
 function setup() {
@@ -28,6 +21,7 @@ function setup() {
   speedSlider.position(10, 10); // Positioning the slider adorably
   speedSlider.size(canvasSize - 25); // Adjusting its size to fit the canvas adorably
 }
+
 // Draw Function: Renders the stars and updates their positions
 function draw() {
   drawSkyGradient(); // Creating a beautiful night sky gradient
@@ -40,6 +34,7 @@ function draw() {
     mainStars[i].display(); // Displaying the star on the canvas
   }
 }
+
 // Draw a Gradient Background for the Sky
 function drawSkyGradient() {
   noFill(); // No filling for gradient
@@ -51,6 +46,7 @@ function drawSkyGradient() {
     line(0, i, width, i); // Drawing a line to create gradient effect
   }
 }
+
 // Star Class: Represents a main twinkling star in the animation
 class Star {
   constructor() {
@@ -64,13 +60,13 @@ class Star {
     this.size = random(0, 1); // Random size for star variation
     this.color = color(random(200, 255), random(200, 255), random(200, 255)); // Random color for the star
     this.prevPositions = []; // Array to store previous positions for particle trails
-    this.trailLength = random(1, 2); // Random length of particle trail
+    this.trailLength = random(0.5, 1.5); // Random length of particle trail
   }
   // Update Method: Moves the star and resets its position if it goes out of bounds
   update() {
-    let speedFactor = map(this.zPos, 0, canvasSize, 0.1, 1);
-    this.xPos += random(-0.5, 0.5) * this.speed * speedFactor; // Adding a bit of randomness to X position
-    this.yPos += random(-0.5, 0.5) * this.speed * speedFactor; // Adding a bit of randomness to Y position
+    let speedFactor = map(this.zPos, 0, canvasSize, 0.01, 1);
+    this.xPos += random(-2, 2) * this.speed * speedFactor; // Adding a bit of randomness to X position
+    this.yPos += random(-2, 2) * this.speed * speedFactor; // Adding a bit of randomness to Y position
     this.zPos -= speedSlider.value(); // Adjusting Z position based on slider value
     
     // Resetting the star's position if it goes out of bounds
@@ -85,7 +81,7 @@ class Star {
     }
   }
   // Display Method: Draws the star on the canvas adorably
-  display() {
+  display() {   
     // Set the stroke color to the star's color
     strokeWeight(this.size); // Adjusting stroke weight based on star size
     stroke(this.color); // Setting stroke color based on brightness
