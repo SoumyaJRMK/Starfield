@@ -1,8 +1,3 @@
-// Kawaii Night Sky with Colorful Stars and Particle Trails 🌟✨🎨
-
-// Disabling Friendly Errors System (FES) to keep things smooth and cute! (*＾▽＾)／
-p5.disableFriendlyErrors = true;
-
 // Global Constants and Variables
 const canvasSize = 700, totalMainStars = 5, defaultStarSpeed = 40;
 let mainStars = [], speedSlider;
